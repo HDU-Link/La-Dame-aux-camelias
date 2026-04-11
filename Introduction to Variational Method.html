@@ -5,78 +5,124 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Introduction to Variational Method</title>
     <link rel="stylesheet" href="./css/mystyle.css">
-    <script src="./js/mystyle.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@3"></script>
+    <script src="./js/mystyle.js"></script>
 </head>
 <body>
-    <div class="card animate-on-scroll">
+    <div class="card">
         <div class="card-header">
-            <h1 class="animate-on-scroll" style="transition: all 0.6s ease;">Introduction to Variational Method</h1>
+            <h1 style="transition: all 0.6s ease;">Introduction to Variational Method</h1>
         </div>
         <div class="content">
-            <p class="animate-on-scroll">
-                The variational method seeks functions \( y_1(t), y_2(t), \dots, y_n(t) \) that extremize a given functional. 
-                For problems involving second derivatives, the general form is
-            </p>
-            <div class="equation-box animate-on-scroll">
-                \[
-                J\left[ y_1,y_2,\cdots ,y_n \right] =\int_0^T{f\left( y_1,y_{1}^{'},y_{1}^{''},\cdots ,y_n,y_{n}^{'},y_{n}^{''} \right)}\text{d}t
-                \]
+            <div id="app">
+                <ul class="nav-tabs">
+                    <li class="nav-item" :class="{ active: display === 'EL' }"@click="display = 'EL'">
+                    Euler-Lagrange
+                    </li>
+                    <li class="nav-item" :class="{ active: display === 'Example' }"@click="display = 'Example'">
+                    Physical Example
+                    </li>
+                    <li class="nav-item" :class="{ active: display === 'Simulation' }"@click="display = 'Simulation'">
+                    Numerical Approach
+                    </li>
+                    <li>
+                    <li class="nav-item" :class="{ active: display === 'Python' }"@click="display = 'Python'">
+                    Python Code
+                    </li>
+                    <li>
+                    <li class="nav-item" :class="{ active: display === 'Dynamic' }"@click="display = 'Dynamic'">
+                    Dynamic Behavior
+                    </li>
+                </ul>
+                <transition>
+                    <component v-bind:is="display"></component>
+                </transition>
             </div>
-            <p class="animate-on-scroll">
-                The corresponding Euler-Lagrange equation, extended to include second derivatives, is
-            </p>
-            <div class="equation-box animate-on-scroll">
-                \[
-                \frac{\partial f}{\partial y_i}-\frac{\text{d}}{\text{d}t}\left( \frac{\partial f}{\partial y_{i}^{'}} \right) +\frac{\text{d}^2}{\text{d}t^2}\left( \frac{\partial f}{\partial y_{i}^{''}} \right) =0
-                \]
+        </div>
+    </div>
+</body>
+<script>
+    const app = Vue.createApp({
+    data() {
+        return {
+            display: "EL",};
+    },
+    watch: {
+        display(val) {
+            this.$nextTick(() => {
+                if (window.MathJax) {
+                    MathJax.typesetPromise();
+                }
+            });
+        }
+    },
+    components: {
+            EL:{ 
+                template: `<p>The variational method seeks functions \\( y_1(t), y_2(t), \\dots, y_n(t) \\) that extremize a given functional. 
+            For problems involving second derivatives, the general form is
+        </p>
+        <div class="equation-box">
+                \\[
+                J\\left[ y_1,y_2,\\cdots ,y_n \\right] =\\int_0^T{f\\left( y_1,y_{1}',y_{1}'',\\cdots ,y_n,y_{n}',y_{n}'' \\right)}\\text{d}t
+                \\]
             </div>
-
-            <h2 class="animate-on-scroll">Physical Example: Two Coupled Particles</h2>
-            <p class="animate-on-scroll">
-                Consider two particles with positions \( y_1(t) \) and \( y_2(t) \). The action functional is
+        <p>
+            The corresponding Euler-Lagrange equation, extended to include second derivatives, is
+        </p>
+        <div class="equation-box">
+            \\[
+            \\frac{\\partial f}{\\partial y_i}-\\frac{\\text{d}}{\\text{d}t}\\left( \\frac{\\partial f}{\\partial y_{i}'} \\right) +\\frac{\\text{d}^2}{\\text{d}t^2}\\left( \\frac{\\partial f}{\\partial y_{i}''} \\right) =0
+            \\]
+        </div>
+        `},
+        Example:{
+            template:`<h2>Physical Example: Two Coupled Particles</h2>
+            <p>
+                Consider two particles with positions \\( y_1(t) \\) and \\( y_2(t) \\). The action functional is
             </p>
-            <div class="equation-box animate-on-scroll">
-                \[
-                J\left[ y_1,y_2 \right] =\int_0^1{\frac{1}{2}\left( y_{1}^{''} \right) ^2 + \frac{1}{2}\left( y_{2}^{''} \right) ^2 + \frac{\mu}{2}\left( y_1-y_2 \right) ^2}\text{d}t
-                \]
+            <div class="equation-box">
+                \\[
+                J\\left[ y_1,y_2 \\right] =\\int_0^1{\\frac{1}{2}\\left( y_{1}'' \\right) ^2 + \\frac{1}{2}\\left( y_{2}'' \\right) ^2 + \\frac{\\mu}{2}\\left( y_1-y_2 \\right) ^2}\\text{d}t
+                \\]
             </div>
-            <p class="animate-on-scroll">
-                Here, \( y_1'' \) and \( y_2'' \) represent accelerations (kinetic-like energy), while \( (y_1 - y_2)^2 \) is a coupling potential. 
+            <p>
+                Here, \\( y_1'' \\) and \\( y_2'' \\) represent accelerations (kinetic-like energy), while \\( (y_1 - y_2)^2 \\) is a coupling potential. 
                 Minimizing this functional leads to the following system of fourth-order differential equations.
             </p>
-            <div class="equation-box animate-on-scroll">
-                \[
-                \begin{cases}
-                    y_1^{(4)} = \mu (y_2 - y_1), \\[6pt]
-                    y_2^{(4)} = \mu (y_1 - y_2), \\[6pt]
-                    y_1(0) = 1,\; y_1(1) = -1,\; y_1'(0) = 0,\; y_1'(1) = 0, \\[6pt]
-                    y_2(0) = -1,\; y_2(1) = 1,\; y_2'(0) = 0,\; y_2'(1) = 0.
-                \end{cases}
-                \]
+            <div class="equation-box">
+                \\[
+                \\begin{cases}
+                    y_1^{(4)} = \\mu (y_2 - y_1), \\\\[6pt]
+                    y_2^{(4)} = \\mu (y_1 - y_2), \\\\[6pt]
+                    y_1(0) = 1,\\; y_1(1) = -1,\\; y_1'(0) = 0,\\; y_1'(1) = 0, \\\\[6pt]
+                    y_2(0) = -1,\\; y_2(1) = 1,\\; y_2'(0) = 0,\\; y_2'(1) = 0.
+                \\end{cases}
+                \\]
             </div>
-            <p class="animate-on-scroll">
-                The parameter \( \mu \ge 0 \) controls the coupling strength. 
-                When \( \mu = 0 \) the particles move independently; as \( \mu \) increases, they become strongly synchronized, 
-                developing boundary layers near \( t=0 \) and \( t=1 \).
+            <p>
+                The parameter \\( \\mu \\ge 0 \\) controls the coupling strength. 
+                When \\( \\mu = 0 \\) the particles move independently; as \\( \\mu \\) increases, they become strongly synchronized, 
+                developing boundary layers near \\( t=0 \\) and \\( t=1 \\).
             </p>
-
-            <h2 class="animate-on-scroll">Numerical Approach: Shooting Method</h2>
-            <p class="animate-on-scroll">
+        `},
+        Simulation:{
+            template: `<h2>Numerical Approach: Shooting Method</h2>
+            <p>
                 Because the system is a boundary value problem (BVP), we convert it into an initial value problem (IVP) 
-                by guessing the missing initial conditions \( y_1''(0), y_1'''(0), y_2''(0), y_2'''(0) \). 
+                by guessing the missing initial conditions \\( y_1''(0), y_1'''(0), y_2''(0), y_2'''(0) \\). 
                 The shooting method minimizes the terminal error.
             </p>
-            <div class="equation-box animate-on-scroll">
-                \[
-                \text{error} = \bigl(y_1(1)+1\bigr)^2 + \bigl(y_1'(1)\bigr)^2 + \bigl(y_2(1)-1\bigr)^2 + \bigl(y_2'(1)\bigr)^2
-                \]
-            </div>
-
-            <h2 class="animate-on-scroll">Python Implementation</h2>
-            <p class="animate-on-scroll">The core dynamics function converts the fourth-order system into an 8-dimensional first-order system.</p>
-            
-            <div class="code-card animate-on-scroll">
+            <div class="equation-box">
+                \\[
+                \\text{error} = \\bigl(y_1(1)+1\\bigr)^2 + \\bigl(y_1'(1)\\bigr)^2 + \\bigl(y_2(1)-1\\bigr)^2 + \\bigl(y_2'(1)\\bigr)^2
+                \\]
+            </div>`
+        },
+        Python:{
+            template:`<h2>Python Implementation</h2>
+            <p>The core dynamics function converts the fourth-order system into an 8-dimensional first-order system.</p>
+            <div class="code-card">
                 <div class="code-header">
                     <div class="window-dot"></div>
                     <div class="window-dot"></div>
@@ -103,8 +149,8 @@
             </div>
 
             <p>The shooting optimization loop solves for unknown initial conditions combined with optimization (e.g., L-BFGS-B), and the error function iterates and gradually converges.</p>
-            
-            <div class="code-card animate-on-scroll">
+        
+            <div class="code-card">
                 <div class="code-header">
                     <div class="window-dot"></div>
                     <div class="window-dot"></div>
@@ -134,25 +180,35 @@ res = minimize(<span class="keyword">lambda</span> x: errors(x, <span class="num
                     </div>
                 </div>
             </div>
-            <p class="animate-on-scroll" align="center" style="margin-top: -30px;">
+            <p align="center" style="margin-top: -30px;">
                 <img src="./svg/Optimization_curve_chart.svg">
             </p>
-            <h2 class="animate-on-scroll">Behavior with Increasing \( \mu \)</h2>
-            <ul class="list animate-on-scroll">
-                <li><strong>\( \mu = 0 \)</strong> – Uncoupled cubic polynomials: \( y_1(t) = 1 - 12t^2 + 24t^3 \), \( y_2(t) = -y_1(t) \).</li>
-                <li><strong>\( \mu = 100 \)</strong> – Weak coupling: slight deviation from the uncoupled case.</li>
-                <li><strong>\( \mu = 1000 \)</strong> – Strong coupling: significant change in shape; shooting optimization required.</li>
-                <li><strong>\( \mu = 2500 \)</strong> – Very strong coupling: near-synchronization with sharp boundary layers.</li>
+            `,
+        },
+        Dynamic:{
+            template:`<h2>Behavior with Increasing \\( \\mu \\)</h2>
+            <ul class="list">
+                <li><strong>\\( \\mu = 0 \\)</strong> – Uncoupled cubic polynomials: \\( y_1(t) = 1 - 12t^2 + 24t^3 \\), \\( y_2(t) = -y_1(t) \\).</li>
+                <li><strong>\\( \\mu = 100 \\)</strong> – Weak coupling: slight deviation from the uncoupled case.</li>
+                <li><strong>\\( \\mu = 1000 \\)</strong> – Strong coupling: significant change in shape; shooting optimization required.</li>
+                <li><strong>\\( \\mu = 2500 \\)</strong> – Very strong coupling: near-synchronization with sharp boundary layers.</li>
             </ul>
-            <p class="animate-on-scroll">
-                The competition between bending energy (\( \int (y_i'')^2 \)) and potential energy (\( \int (y_1-y_2)^2 \)) 
-                explains the transition: large \( \mu \) forces \( y_1 \approx y_2 \) in the interior, while boundary conditions 
-                force \( y_1(0)=1, y_2(0)=-1 \), leading to rapid transitions near the ends.
+            <p>
+                The competition between bending energy (\\( \\int (y_i'')^2 \\)) and potential energy (\\( \\int (y_1-y_2)^2 \\)) 
+                explains the transition: large \\( \\mu \\) forces \\( y_1 \\approx y_2 \\) in the interior, while boundary conditions 
+                force \\( y_1(0)=1, y_2(0)=-1 \\), leading to rapid transitions near the ends.
             </p>
-            <p class="animate-on-scroll" align="center" style="margin-top: -30px;">
+            <p align="center" style="margin-top: -30px;">
                 <img src="./svg/Figure_1.svg">
-            </p>
-        </div>
-    </div>
-</body>
+            </p>`
+        }
+        }
+    });
+    window.addEventListener('load', () => {
+    if (window.MathJax) {
+        MathJax.typesetPromise();
+    }
+    });
+    app.mount('#app');
+</script>
 </html>
