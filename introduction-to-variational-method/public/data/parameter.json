@@ -1,0 +1,17 @@
+[
+    {
+        "name": "μ=0",
+        "value": "Uncoupled cubic polynomials"
+    },
+    {
+        "name": "μ=100",
+        "value": "Weak coupling: slight deviation from the uncoupled case."
+    },
+    {
+        "name": "μ=1000",
+        "value": "Strong coupling: significant change in shape; shooting optimization required."
+    },
+    {   "name": "μ=10000",
+        "value": "Very strong coupling: near-synchronization with sharp boundary layers."
+    }
+]
