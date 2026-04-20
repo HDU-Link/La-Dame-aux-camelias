@@ -50,11 +50,11 @@ $$
 ```plaintext
 La-Dame-aux-camelias/
 ├── Euclidean Space/          # 欧氏空间仿真示例
-│   ├── Example_1.py # 考虑位置协同问题，定义基本配置类
-│   ├── Example_2.py # 考虑位置协同问题
-│   ├── Example_3.py # 考虑速度协同问题
-│   ├── Example_4.py # 考虑位置协同问题
-│   └── Example_5.py # 考虑合作竞争网络多智能体的协同避障问题
+│   ├── Example_1.py          # 考虑位置协同问题，定义基本配置类
+│   ├── Example_2.py          # 考虑位置协同问题
+│   ├── Example_3.py          # 考虑速度协同问题
+│   ├── Example_4.py          # 考虑位置协同问题
+│   └── Example_5.py          # 考虑合作竞争网络多智能体的协同避障问题
 ├── Riemannian Manifold/      # 黎曼流形仿真示例
 │   ├── Example 1 - Riemannian Manifold.py
 │   └── Example 2 - Riemannian Manifold.py
