@@ -7,6 +7,7 @@ import seaborn as sns
 plt.rcParams.update({
     'font.family': 'Arial',
     'font.sans-serif': ['Arial'],
+    'font.size': 12,
     'lines.linewidth': 2
 })
 sns.set_style("darkgrid")
@@ -37,38 +38,33 @@ sol0 = solve_ivp(lambda t, state: dynamics(t, state, 0),
 sol1 = solve_ivp(lambda t, state: dynamics(t, state, 2500),
         t_span, x1, t_eval=t_eval, method='RK45')
 fig = plt.figure()
-ax1 = fig.add_subplot(121)
+ax1 = fig.add_subplot(221)
 theta = np.linspace(0, np.pi*2)
 ax1.plot(np.cos(theta), np.sin(theta), color='black', alpha=0.1)
 ax1.plot(np.cos(sol0.y[0]), np.sin(sol0.y[0]), color='purple', alpha=0.2)
-ax1.set_ylabel("$y$");ax1.set_xlabel("$x$");ax1.set_aspect('equal')
-ax2 = fig.add_subplot(122)
+ax1.set_ylabel("$y$");ax1.set_aspect('equal')
+ax2 = fig.add_subplot(222)
 ax2.plot(np.cos(theta), np.sin(theta), color='black', alpha=0.1)
 ax2.plot(np.cos(sol1.y[0]), np.sin(sol1.y[0]), color='purple', alpha=0.2)
-ax2.set_xlabel("$x$");ax2.set_aspect('equal')
-point1, = ax1.plot([], [], 'o', color='hotpink', markersize=8)
-point2, = ax1.plot([], [], 'o', color='steelblue', markersize=8)
-point3, = ax2.plot([], [], 'o', color='hotpink', markersize=8)
-point4, = ax2.plot([], [], 'o', color='steelblue', markersize=8)
-
-def init():
-    point1.set_data([], [])
-    point2.set_data([], [])
-    point3.set_data([], [])
-    point4.set_data([], [])
-    return point1, point2, point3, point4
-
-def update(frame):
-    if frame > 0:
-        point1.set_data([np.cos(sol0.y[0, frame-1])], [np.sin(sol0.y[0, frame-1])])
-        point2.set_data([np.cos(sol0.y[4, frame-1])], [np.sin(sol0.y[4, frame-1])])
-        point3.set_data([np.cos(sol1.y[0, frame-1])], [np.sin(sol1.y[0, frame-1])])
-        point4.set_data([np.cos(sol1.y[4, frame-1])], [np.sin(sol1.y[4, frame-1])])
-    return point1, point2, point3, point4
-
-ani = FuncAnimation(
-    fig=fig, func=update, frames=len(t_eval),
-    init_func=init, interval=20, blit=True, repeat=True
-)
+ax2.set_ylabel("$y$");ax2.set_aspect('equal')
+ax3 = fig.add_subplot(223)
+ax3.plot(np.cos(theta), np.sin(theta), color='black', alpha=0.1)
+ax3.plot(np.cos(sol0.y[0]), np.sin(sol0.y[0]), color='purple', alpha=0.2)
+ax3.set_xlabel("$x$");ax3.set_ylabel("$y$");ax3.set_aspect('equal')
+ax4 = fig.add_subplot(224)
+ax4.plot(np.cos(theta), np.sin(theta), color='black', alpha=0.1)
+ax4.plot(np.cos(sol1.y[0]), np.sin(sol1.y[0]), color='purple', alpha=0.2)
+ax4.set_xlabel("$x$");ax4.set_ylabel("$y$");ax4.set_aspect('equal')
+tmp = 25
+ax1.plot([np.cos(sol0.y[0, tmp])], [np.sin(sol0.y[0, tmp])], 'o', color='hotpink', markersize=8)
+ax1.plot([np.cos(sol0.y[4, tmp])], [np.sin(sol0.y[4, tmp])], 'o', color='steelblue', markersize=8)
+ax3.plot([np.cos(sol1.y[0, tmp])], [np.sin(sol1.y[0, tmp])], 'o', color='hotpink', markersize=8)
+ax3.plot([np.cos(sol1.y[4, tmp])], [np.sin(sol1.y[4, tmp])], 'o', color='steelblue', markersize=8)
+ax1.set_title("$t$ = 0.25 $s$")
+tmp = 75
+ax2.plot([np.cos(sol0.y[0, tmp])], [np.sin(sol0.y[0, tmp])], 'o', color='hotpink', markersize=8)
+ax2.plot([np.cos(sol0.y[4, tmp])], [np.sin(sol0.y[4, tmp])], 'o', color='steelblue', markersize=8)
+ax4.plot([np.cos(sol1.y[0, tmp])], [np.sin(sol1.y[0, tmp])], 'o', color='hotpink', markersize=8)
+ax4.plot([np.cos(sol1.y[4, tmp])], [np.sin(sol1.y[4, tmp])], 'o', color='steelblue', markersize=8)
+ax2.set_title("$t$ = 0.75 $s$")
 plt.show()
-ani.save('S1_animation.gif', writer='pillow', fps=50)
