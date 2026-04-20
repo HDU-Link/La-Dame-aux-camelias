@@ -2,37 +2,40 @@
 
 ```plaintext
 La-Dame-aux-camelias/
-├── Example 1 - Euclidean Space.py # 考虑位置协同问题，绘制不同参数下智能体位置-时间轨迹曲线、优化曲线
-├── Example 2 - Euclidean Space.py # 考虑位置协同问题，绘制不同参数下智能体位置-时间轨迹曲线、优化曲线
-├── Example 3 - Euclidean Space.py # 考虑速度协同问题，绘制不同参数下智能体位置-时间轨迹曲线、优化曲线
-├── Example 4 - Euclidean Space.py # 考虑位置协同问题，绘制不同参数下智能体位置-时间轨迹曲线、优化曲线
-├── Example 5 - Euclidean Space.py # 考虑合作竞争网络多智能体的协同避障问题
-├── Example 1 - Riemannian Manifold.py
-├── Example 2 - Riemannian Manifold.py
-├── H5+CSS3+JS-Webpage/       # 基于H5+CSS3+JS开发的简介页面
-│   ├── Introduction to Variational Method.html
-│   ├── css/
-│   │   └──mystyle.css        # 样式文件
-│   ├── js/
-│   │   └──myscript.js        # 交互逻辑
-│   └── svg/
-│       ├──Figure_1.svg       # 不同参数下智能体位置-时间轨迹曲线
-│       └──Optimization_curve_chart.svg # 优化曲线
-├── introduction-to-variational-method/ # 基于Vue开发的简介页面
-│   ├── public/               # 静态资源
-│   │   └── index.html
-│   ├── src/                  # 源代码
-│   │   ├── main.ts           # 入口文件
-│   │   ├── App.vue           # 根组件
-│   │   ├── assets/           # 静态资源
-│   │   ├── components/       # 公共组件
-│   │   ├── router/           # 路由配置
-│   │   ├── store/            # Vuex状态管理
-│   │   └── views/            # 页面视图
-│   ├── package.json          # 依赖配置
-│   ├── vue.config.js         # Vue CLI配置
-│   └── README.md             # 安装依赖与开发构建说明
-└── README.md # 项目说明
+├── Euclidean Space/          # 欧几里得空间示例
+│   ├── Example 1 - Euclidean Space.py # 考虑位置协同问题，绘制不同参数下智能体位置-时间轨迹曲线、优化曲线（绘图输出下同）
+│   ├── Example 2 - Euclidean Space.py # 考虑位置协同问题
+│   ├── Example 3 - Euclidean Space.py # 考虑速度协同问题
+│   ├── Example 4 - Euclidean Space.py # 考虑位置协同问题
+│   └── Example 5 - Euclidean Space.py # 考虑合作竞争网络多智能体的协同避障问题
+├── Riemannian Manifold/      # 黎曼流形示例
+│   ├── Example 1 - Riemannian Manifold.py
+│   └── Example 2 - Riemannian Manifold.py
+├── Project Overview/         # 变分法简介网页
+│   ├── H5+CSS3+JS-Webpage/   # 基于H5+CSS3+JS开发的简介页面
+│   │   ├── Introduction to Variational Method.html
+│   │   ├── css/
+│   │   │   └──mystyle.css    # 样式文件
+│   │   ├── js/
+│   │   │   └──myscript.js    # 交互逻辑
+│   │   └── svg/
+│   │       ├──Figure_1.svg   # 不同参数下智能体位置-时间轨迹曲线
+│   │       └──Optimization_curve_chart.svg # 优化曲线
+│   └── introduction-to-variational-method/ # 基于Vue开发的简介页面
+│       ├── public/           # 静态资源
+│       │   └── index.html
+│       ├── src/              # 源代码
+│       │   ├── main.ts       # 入口文件
+│       │   ├── App.vue       # 根组件
+│       │   ├── assets/       # 静态资源
+│       │   ├── components/   # 公共组件
+│       │   ├── router/       # 路由配置
+│       │   ├── store/        # Vuex状态管理
+│       │   └── views/        # 页面视图
+│       ├── package.json      # 依赖配置
+│       ├── vue.config.js     # Vue CLI配置
+│       └── README.md         # 安装依赖与开发构建说明
+└── README.md                 # 项目说明
 ```
 
 
