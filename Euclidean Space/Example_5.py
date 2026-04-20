@@ -5,11 +5,12 @@ from scipy.optimize import minimize
 plt.rcParams.update({
     'font.family': 'Arial',
     'font.sans-serif': ['Arial'],
+    'font.size': 14,
     'lines.linewidth': 2
 })
 
 t_span = (0, 1); t_eval = np.linspace(0, 1, 100);
-n_agents = 4; y0 = [0, 0]
+n_agents = 4; y0 = [0, 0]; kappa = 100; mu2 = 1000;
 # Shooting method for initial value
 iterations = [];errors_list = []
 def dynamics(t, state, mu):
@@ -18,9 +19,9 @@ def dynamics(t, state, mu):
         x, y = state[8*i], state[8*i+4]
         distance = (x-y0[0])**2 + (y-y0[1])**2
         deriv[8*i:8*i+3] = state[8*i+1:8*i+4]
-        deriv[8*i+3] = mu*x/distance**2
+        deriv[8*i+3] = kappa*x/(1+distance)**2
         deriv[8*i+4:8*i+7] = state[8*i+5:8*i+8]
-        deriv[8*i+7] = mu*y/distance**2
+        deriv[8*i+7] = kappa*y/(1+distance)**2
     deriv[3] += mu*(state[8] - state[0])
     deriv[11] += mu*(state[0] - state[8])
     deriv[7] += mu*(state[12] - state[4])
@@ -52,8 +53,8 @@ def call(x, mu):
     iterations.append(len(iterations) + 1)
     errors_list.append(errors(x, mu))
 res1 = minimize(lambda x: errors(x, 0), np.zeros(n_agents*4))
-res2 = minimize(lambda x: errors(x, 10), np.zeros(n_agents*4),
-                callback = lambda x: call(x, 10))
+res2 = minimize(lambda x: errors(x, mu2), np.zeros(n_agents*4),
+                callback = lambda x: call(x, mu2))
 print(res2.fun, res2.message)
 
 # Solve and draw y-x trajectory diagram
@@ -74,7 +75,7 @@ x2 = [-1, 0, res2.x[0], res2.x[1],
       -1, 0, res2.x[10], res2.x[11],
       -1, 0, res2.x[12], res2.x[13],
       -2, 0, res2.x[14], res2.x[15]]
-cases = [(0, x1, "μ=0"), (10, x2, "μ=10")]
+cases = [(0, x1, "μ=0"), (mu2, x2, f"μ={mu2}")]
 for mu, initial_value, label in cases:
     sol = solve_ivp(lambda t, state: dynamics(t, state, mu),
         t_span, initial_value, t_eval=t_eval, method='RK45')
@@ -84,7 +85,7 @@ for sol, label in solutions:
     fig = plt.figure(label)
     plt.scatter(0, 0, color="black", label="$y_0$")
     for i in range(n_agents):
-        plt.plot(sol.y[8*i], sol.y[8*i+4], label=fr"$x_{i}$")
+        plt.plot(sol.y[8*i], sol.y[8*i+4], label=fr"$x_{i+1}$")
     plt.xlabel("$x$")
     plt.ylabel("$y$")
     plt.legend()

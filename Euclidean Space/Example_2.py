@@ -4,12 +4,8 @@ from scipy.integrate import solve_ivp
 from scipy.optimize import minimize
 from matplotlib.animation import FuncAnimation
 import seaborn as sns
-plt.rcParams.update({
-    'font.family': 'Arial',
-    'font.sans-serif': ['Arial'],
-    'font.size': 12,
-    'lines.linewidth': 2
-})
+from Example_1 import BasicConfig
+BasicConfig.apply('paper')
 sns.set_style("darkgrid")
 t_span = (0, 1); t_eval = np.linspace(0, 1, 100)
 

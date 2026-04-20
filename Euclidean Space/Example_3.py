@@ -2,12 +2,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 from scipy.integrate import solve_ivp
 from scipy.optimize import minimize
-plt.rcParams.update({
-    'font.family': 'Arial',
-    'font.sans-serif': ['Arial'],
-    'lines.linewidth': 2
-})
-
+from Example_1 import BasicConfig
+BasicConfig.apply('plain')
 t_span = (0, 1); t_eval = np.linspace(0, 1, 100)
 
 # Shooting method for initial value
@@ -43,27 +39,11 @@ for mu, initial_value, label in cases:
     sol = solve_ivp(lambda t, state: dynamics(t, state, mu),
         t_span, initial_value, t_eval=t_eval, method='RK45')
     solutions.append((sol, label))
-    
-for sol, label in solutions:
-    plt.plot(sol.t, sol.y[0], label=label)
-plt.xlabel("$t$")
-plt.ylabel("$y$")
-plt.legend()
-plt.show()
+
+BasicConfig.plot_trajectory(solutions, "$y$")
 
 # Velocity derivative plot
-fig = plt.figure("Velocity derivative plot")
-for sol, label in solutions:
-    plt.plot(sol.t, sol.y[1], label=label)
-plt.xlabel("$t$")
-plt.ylabel("$y'$")
-plt.legend()
-plt.show()
+BasicConfig.plot_velocity_derivative(solutions)
 
 # Optimization curve chart
-fig = plt.figure("Optimization curve chart")
-plt.plot(iterations, errors_list, '-o', markersize=4)
-plt.xlabel("Number of iterations")
-plt.ylabel("Value of error function")
-plt.yscale('log')
-plt.show()
+BasicConfig.plot_optimization_curve(iterations, errors_list)

@@ -13,43 +13,41 @@ t_span = (0, 1); t_eval = np.linspace(0, 1, 100)
 # Shooting method for initial value
 iterations = [];errors_list = []
 def dynamics(t, state, mu):
+    distance = (state[0]**2+state[4]**2)
     return np.hstack(
-        [state[1:4], mu*(state[4]-state[0]),
-         state[5:8], mu*(state[0]-state[4])])
+        [state[1:4], mu*(state[0]/distance**2),
+         state[5:8], mu*(state[4]/distance**2)])
 
 def errors(x, mu):
-    initial_value = [1, 0, x[0], x[1], -1, 0, x[2], x[3]]
+    initial_value = [-1, 0, x[0], x[1], 0, 0, x[2], x[3]]
     sol = solve_ivp(lambda t, state: dynamics(t, state, mu),
                     t_span, initial_value, t_eval=t_eval, method='RK45')
-    err = ((sol.y[0,-1]+1)**2+(sol.y[1,-1])**2
-           +(sol.y[4,-1]-1)**2+(sol.y[5,-1])**2)
+    err = ((sol.y[0,-1]-1)**2+(sol.y[1,-1])**2
+           +(sol.y[4,-1])**2+(sol.y[5,-1])**2)
     return err
 
 def call(x, mu):
     iterations.append(len(iterations) + 1)
     errors_list.append(errors(x, mu))
-res2 = minimize(lambda x: errors(x, 1000), [0, 0, 0, 0])
-res3 = minimize(lambda x: errors(x, 2500), [0, 0, 0, 0],
-                callback = lambda x: call(x, 2500), method = "L-BFGS-B")
-print(res3)
+res1 = minimize(lambda x: errors(x, 0), [0, 0, 0, 0])
+res2 = minimize(lambda x: errors(x, 1), [0, 0, 0, 0], method="Nelder-Mead",
+                callback = lambda x: call(x, 1))
+print(res2)
 
-# Solve and draw y[0]-t trajectory diagram
+# Solve and draw y-x trajectory diagram
 solutions = []
-x0 = [1, 0, -12, 24,     -1, 0, 12, -24]
-x1 = [1, 0, -16.13, 71.30,     -1, 0, 16.13, -71.30]
-x2 = [1, 0, res2.x[0], res2.x[1], -1, 0, res2.x[2], res2.x[3]]
-x3 = [1, 0, res3.x[0], res3.x[1], -1, 0, res3.x[2], res3.x[3]]
-cases = [(0, x0, "μ=0"), (100, x1, "μ=100"),
-        (1000, x2, "μ=1000"), (2500, x3, "μ=2500")]
+x1 = [-1, 0, res1.x[0], res1.x[1], 0, 0, res1.x[2], res1.x[3]]
+x2 = [-1, 0, res2.x[0], res2.x[1], 0, 0, res2.x[2], res2.x[3]]
+cases = [(0, x1, "μ=0"), (1, x2, "μ=1")]
 for mu, initial_value, label in cases:
     sol = solve_ivp(lambda t, state: dynamics(t, state, mu),
         t_span, initial_value, t_eval=t_eval, method='RK45')
     solutions.append((sol, label))
     
 for sol, label in solutions:
-        plt.plot(sol.t, sol.y[0], label=label)
+    plt.plot(sol.y[0], sol.y[4], label=label)
 
-plt.xlabel("$t$")
+plt.xlabel("$x$")
 plt.ylabel("$y$")
 plt.legend()
 plt.show()
