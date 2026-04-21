@@ -6,7 +6,7 @@
     <div>
       <ul class="nav-tabs">
         <li class="nav-item">
-          <router-link to="/" active-class="active">Euler-Lagrange</router-link>
+          <router-link to="/" active-class="active">Introduction</router-link>
         </li>
         <li class="nav-item">
           <router-link to="/example" active-class="active">Physical Example</router-link>
