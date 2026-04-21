@@ -1,4 +1,5 @@
 <template>
+  <slot></slot>
   <p> The variational method seeks functions \( y_1(t), y_2(t), \dots, y_n(t) \) that extremize a given functional. 
     For problems involving second derivatives, the general form is
   </p>
