@@ -36,7 +36,7 @@ class BasicConfig:
         })
         if style == 'default':
             plt.rcParams.update({
-                'font.size': 16
+                'font.size': 14
             })
         elif style == 'paper':
             plt.rcParams.update({
@@ -66,9 +66,9 @@ if __name__ == "__main__":
     def call(x, mu):
         iterations.append(len(iterations) + 1)
         errors_list.append(errors(x, mu))
-    res2 = minimize(lambda x: errors(x, 200), [0, 0, 0, 0])
-    res3 = minimize(lambda x: errors(x, 1000), [0, 0, 0, 0],
-                    callback = lambda x: call(x, 1000), method = "L-BFGS-B")
+    res2 = minimize(lambda x: errors(x, 1000), [0, 0, 0, 0])
+    res3 = minimize(lambda x: errors(x, 2500), [0, 0, 0, 0],
+                    callback = lambda x: call(x, 2500), method = "L-BFGS-B")
     print(res3)
 
     # Solve and draw y[0]-t trajectory diagram
@@ -77,8 +77,8 @@ if __name__ == "__main__":
     x1 = [1, 0, -16.13, 71.30,     -1, 0, 16.13, -71.30]
     x2 = [1, 0, res2.x[0], res2.x[1], -1, 0, res2.x[2], res2.x[3]]
     x3 = [1, 0, res3.x[0], res3.x[1], -1, 0, res3.x[2], res3.x[3]]
-    cases = [(0, x0, "$α$ = 0"), (100, x1, "$α$ = 50"),
-            (200, x2, "$α$ = 100"), (1000, x3, "$α$ = 500")]
+    cases = [(0, x0, "$μ$ = 0"), (100, x1, "$μ$ = 100"),
+            (1000, x2, "$μ$ = 1000"), (2500, x3, "$μ$ = 2500")]
     for mu, initial_value, label in cases:
         sol = solve_ivp(lambda t, state: dynamics(t, state, mu),
             t_span, initial_value, t_eval=t_eval, method='RK45')
