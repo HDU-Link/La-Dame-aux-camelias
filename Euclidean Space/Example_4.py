@@ -2,12 +2,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 from scipy.integrate import solve_ivp
 from scipy.optimize import minimize
-plt.rcParams.update({
-    'font.family': 'Arial',
-    'font.sans-serif': ['Arial'],
-    'lines.linewidth': 2
-})
-
+from Example_1 import BasicConfig
+BasicConfig.apply('plain')
 t_span = (0, 1); t_eval = np.linspace(0, 1, 100)
 
 # Shooting method for initial value
@@ -53,9 +49,4 @@ plt.legend()
 plt.show()
 
 # Optimization curve chart
-fig = plt.figure("Optimization curve chart")
-plt.plot(iterations, errors_list, '-o', markersize=4)
-plt.xlabel("Number of iterations")
-plt.ylabel("Value of error function")
-plt.yscale('log')
-plt.show()
+BasicConfig.plot_optimization_curve(iterations, errors_list)
