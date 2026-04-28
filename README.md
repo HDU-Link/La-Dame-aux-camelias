@@ -45,9 +45,9 @@ $$
 
 当 $\mu$ 从 0 增加到 $\infty$，系统从"独立运动"连续过渡到"强制同步"，数值求解难度也会相应增加。
 
-在Example_1.py中会给出不同 $\mu$ 下对应的 $y-t$ 图、 $y'-t$ 图、以及利用打靶法寻找初值的优化曲线。
+在 `Example_1.py` 中会给出不同 $\mu$ 下对应的 $y-t$ 图、 $y'-t$ 图、以及利用打靶法寻找初值的优化曲线。
 
-在Example_2.py用 $\theta$ 替换问题中的 $y$ ，给出坐标为 $(\cos\theta, \sin\theta)$ 相应的 $y-x$ 动画演示、关键时间节点定格位置图。
+在 `Example_2.py` 用 $\theta$ 替换问题中的 $y$ ，给出坐标为 $(\cos\theta, \sin\theta)$ 相应的 $y-x$ 动画演示、关键时间节点定格位置图。
 
 在Project Overview中基于H5+CSS3+JS开发/Vue开发的网页中，给出了本例实现的具体详细介绍（英文版），二者在内容上无本质区别，仅是本人网页设计与开发的初次尝试和练习。
 
@@ -85,7 +85,7 @@ $$
 
 随 $\mu$ 增大，方程呈现刚性（高阶导数与强耦合项竞争），需要更精细的数值方法。
 
-在Example_3.py中会给出不同 $\mu$ 下对应的 $y-t$ 图、 $y'-t$ 图、以及利用打靶法寻找初值的优化曲线。
+在 `Example_3.py` 中会给出不同 $\mu$ 下对应的 $y-t$ 图、 $y'-t$ 图、以及利用打靶法寻找初值的优化曲线。
 
 ## 📝 例3：单质点避障
 
@@ -100,9 +100,9 @@ $$
 
 其中：
 
-- $\Psi$ 是避障人工势函数（artificial potential function, APF），这里选取了 $\Psi \left( p,p_0 \right) =\left( p-p_0 \right) ^{-2} $
-- $(x,y)$ 是质点 $p$ 的位置坐标， $(x_0,y_0)$ 是障碍物 $p_0$ 的位置坐标
+- $(x(t),y(t))$ 是质点 $p(t)$ 的位置坐标， $(x_0,y_0)$ 是障碍物 $p_0$ 的位置坐标
 - $x''$ 和 $y''$ 表示加速度（与动能相关）
+- $\Psi$ 是避障人工势函数（artificial potential function, APF），这里选取了 $\Psi \left( p,p_0 \right) =\left( p-p_0 \right) ^{-2} $
 
 对泛函 $J[x,y]$ 求变分，可得如下欧拉-拉格朗日方程组：
 
@@ -126,11 +126,48 @@ $$
 
 随 $\mu$ 增大，方程呈现刚性，表现为质点轨迹在靠近障碍物处急剧弯曲，需要更精细的数值方法。
 
-在Example_4.py中会给出不同 $\mu$ 下对应的 $y-x$ 图以及利用打靶法寻找初值的优化曲线。
+在 `Example_4.py` 中会给出不同 $\mu$ 下对应的 $y-x$ 图以及利用打靶法寻找初值的优化曲线。
 
 ## 📝 例4：多智能体协同避障（位置协同+避障）
 
-在Example_5.py中会给出普通避障、协同避障的两幅图可进行对比，以及利用打靶法寻找初值的优化曲线。
+考虑以下泛函
+
+$$
+J\left[ p_1,p_2,p_3,p_4 \right] =\frac{1}{2}\int_0^1{\sum_{i=1}^4{\left[ \left( p_i'' \right) ^2+\Psi \left( p_i,p_0 \right) +\sum_{j\in \mathcal{N}_i}{\Phi \left( p_i,p_j \right)} \right]}\text{d}t}
+$$
+
+其中：
+
+- $p_i(t) = (x_i(t), y_i(t))$ 表示第 $i$ 个质点的位置坐标
+- $p_i''$ 表示加速度（与动能相关）
+- $\Psi(p_i, p_0)$ 是避障人工势函数，这里选取 $\Psi(p_i, p_0) = \dfrac{\kappa}{1 + (p_i - p_0)^2}$
+- $\Phi(p_i, p_j)$ 是智能体之间的协同势函数，这里选取 $\Phi(p_i, p_j) = \mu (p_i - p_j)^2$
+- $\mathcal{N}_i$ 表示第 $i$ 个智能体的邻居集合
+
+设障碍物位置为 $p_0(0,0)$，对泛函 $J[p_1, p_2, p_3, p_4]$ 求变分，可得如下欧拉-拉格朗日方程组：
+
+$$
+x_i^{(4)} = \frac{\kappa x_i}{\left(1+x_i^2 + y_i^2\right)^2} + \mu \cdot \sum_{j\in \mathcal{N}_i} (x_j - x_i), \quad y_i^{(4)} = \frac{\kappa y_i}{\left(1+x_i^2 + y_i^2\right)^2} + \mu \cdot \sum_{j\in \mathcal{N}_i} (y_j - y_i), \quad i = 1,2,3,4
+$$
+
+给定边值，考虑以下问题：
+
+$$
+\begin{cases}
+x_i^{(4)} = \frac{\kappa x_i}{\left(1+x_i^2 + y_i^2\right)^2} + \mu \cdot \sum_{j\in \mathcal{N}_i} (x_j - x_i), \\
+y_i^{(4)} = \frac{\kappa y_i}{\left(1+x_i^2 + y_i^2\right)^2} + \mu \cdot \sum_{j\in \mathcal{N}_i} (y_j - y_i), \\
+x_i'(0) = 0, \quad x_i'(1) = 0, \quad y_i'(0) = 0, \quad y_i'(1) = 0, \quad i = 1,2,3,4, \\
+x_1(0) = -1, \quad x_1(1) = 1, \quad y_1(0) = 2, \quad y_1(1) = 2,\\
+x_2(0) = -1, \quad x_2(1) = 1, \quad y_2(0) = 1, \quad y_2(1) = 1,\\
+x_3(0) = -1, \quad x_3(1) = 1, \quad y_3(0) = -1, \quad y_3(1) = -1,\\
+x_4(0) = -1, \quad x_4(1) = 1, \quad y_4(0) = -2, \quad y_4(1) = -2,\\
+\mathcal{N}_1=\mathcal{N}_2= \{ 1,2 \} ,\quad \mathcal{N}_3=\mathcal{N}_4= \{ 3,4 \} 
+\end{cases}
+$$
+
+随 $\kappa$ 和 $\mu$ 增大，系统呈现更强的耦合与刚性，表现为智能体轨迹在靠近障碍物处弯曲，同时相互之间保持编队或避免碰撞，需要更精细的数值方法。
+
+在 `Example_5.py` 中会给出普通避障、协同避障的两幅图可进行对比，以及利用打靶法寻找初值的优化曲线。
 
 ## 🧩 项目结构
 
