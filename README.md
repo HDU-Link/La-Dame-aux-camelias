@@ -3,30 +3,30 @@
 考虑依赖于多个函数及其导数的泛函：
 
 $$
-J\left[ y_1,y_2,\cdots ,y_n \right] =\int_0^T{f\left( y_1,y_{1}^{'},y_{1}^{''},\cdots ,y_n,y_{n}^{'},y_{n}^{''} \right)}\text{d}t
+J\left[ y_1,y_2,\cdots ,y_n \right] =\int_0^T{f\left( y_1,y_{1}',y_{1}'',\cdots ,y_n,y_{n}',y_{n}'' \right)}\text{d}t
 $$
 
 对于上述泛函，其极值曲线满足以下欧拉-拉格朗日方程：
 
 $$
-\frac{\partial f}{\partial y_i}-\frac{\text{d}}{\text{d}t}\left( \frac{\partial f}{\partial y_{i}^{'}} \right) +\frac{\text{d}^2}{\text{d}t^2}\left( \frac{\partial f}{\partial y_{i}^{''}} \right) =0
+\frac{\partial f}{\partial y_i}-\frac{\text{d}}{\text{d}t}\left( \frac{\partial f}{\partial y_{i}'} \right) +\frac{\text{d}^2}{\text{d}t^2}\left( \frac{\partial f}{\partial y_{i}''} \right) =0
 $$
 
-## 📝 例1：双质点耦合系统
+## 📝 例1：双质点耦合系统（位置协同）
 
-考虑以下泛函（两个耦合的质点系统）
+考虑以下泛函
 
 $$
-J\left[ y_1,y_2 \right] =\int_0^1{\frac{1}{2}\left( y_{1}^{''} \right) ^2+}\frac{1}{2}\left( y_{2}^{''} \right) ^2+\frac{\mu}{2}\left( y_1-y_2 \right) ^2\text{d}t
+J\left[ y_1,y_2 \right] =\int_0^1{\frac{1}{2}\left( y_{1}'' \right) ^2+}\frac{1}{2}\left( y_{2}'' \right) ^2+\frac{\mu}{2}\left( y_1-y_2 \right) ^2\text{d}t
 $$
 
-### 物理意义
+其中：
 
 - $y_1(t)$ 和 $y_2(t)$ 分别表示两个质点的位置
 - $y_1''$ 和 $y_2''$ 表示加速度（与动能相关）
 - $(y_1 - y_2)^2$ 表示弹性势能（耦合项）
 
-### 欧拉-拉格朗日方程
+求解该泛函极值，得到相应的欧拉-拉格朗日方程为
 
 $$
 \quad y_1^{(4)} = \mu (y_2 - y_1), \quad \quad y_2^{(4)} = \mu (y_1 - y_2)
@@ -43,18 +43,59 @@ y_2(0) = -1,\quad y_2(1) = 1,\quad y_2'(0) = 0,\quad y_2'(1) = 0.
 \end{cases}
 $$
 
-当 $\mu$ 从 0 增加到 $\infty$，系统从"独立运动"连续过渡到"强制同步"，数值求解难度也会相应增加
+当 $\mu$ 从 0 增加到 $\infty$，系统从"独立运动"连续过渡到"强制同步"，数值求解难度也会相应增加。
+
+在Example_1.py中会给出不同 $\mu$ 下对应的 $y-t$ 图、 $y'-t$ 图、以及利用打靶法寻找初值的优化曲线。
+
+在Example_2.py用 $\theta$ 替换问题中的 $y$ ，给出坐标为 $(\cos\theta, \sin\theta)$ 相应的 $y-x$ 动画演示、关键时间节点定格位置图。
+
+## 📝 例2：双质点耦合系统（速度协同）
+
+考虑以下泛函
+
+$$
+J\left[ y_1,y_2 \right] =\int_0^1{\frac{1}{2}\left( y_{1}'' \right) ^2+}\frac{1}{2}\left( y_{2}'' \right) ^2+\frac{\mu}{2}\left( y_1'-y_2' \right) ^2\text{d}t
+$$
+
+其中：
+
+- $y_1(t)$ 和 $y_2(t)$ 分别表示两个质点的位置
+- $y_1''$ 和 $y_2''$ 表示加速度（与动能相关）
+- $(y_1' - y_2')^2$ 表示速度差耦合项
+
+
+对泛函 $J[y_1, y_2]$ 求变分，可得如下欧拉-拉格朗日方程组：
+
+$$
+\quad y_1^{(4)} = \mu (y_1'' - y_2''), \quad \quad y_2^{(4)} = \mu (y_2'' - y_1'')
+$$
+
+
+给定如下边界条件：
+
+$$
+\begin{cases}
+y_1^{(4)} = \mu (y_1'' - y_2''), \\
+y_2^{(4)} = -\mu (y_1'' - y_2''), \\
+y_1(0) = 1,\quad y_1(1) = -1,\quad y_1'(0) = 0,\quad y_1'(1) = 0, \\
+y_2(0) = -1,\quad y_2(1) = 1,\quad y_2'(0) = 0,\quad y_2'(1) = 0.
+\end{cases}
+$$
+
+随 $\mu$ 增大，方程呈现刚性（高阶导数与强耦合项竞争），需要更精细的数值方法。
+
+在Example_3.py中会给出不同 $\mu$ 下对应的 $y-t$ 图、 $y'-t$ 图、以及利用打靶法寻找初值的优化曲线。
 
 ## 🧩 项目结构
 
 ```plaintext
 La-Dame-aux-camelias/
 ├── Euclidean Space/          # 欧氏空间仿真示例
-│   ├── Example_1.py          # 考虑位置协同问题，定义基本配置类
-│   ├── Example_2.py          # 考虑位置协同问题
-│   ├── Example_3.py          # 考虑速度协同问题
-│   ├── Example_4.py          # 考虑位置协同问题
-│   └── Example_5.py          # 考虑合作竞争网络多智能体的协同避障问题
+│   ├── Example_1.py          # 考虑一维位置协同问题，定义基本配置类
+│   ├── Example_2.py          # 演示一维位置协同问题的轨迹动画
+│   ├── Example_3.py          # 考虑一维速度协同问题
+│   ├── Example_4.py          # 考虑二维位置协同问题
+│   └── Example_5.py          # 考虑三维合作竞争网络多智能体的协同避障问题
 ├── Riemannian Manifold/      # 黎曼流形仿真示例
 │   ├── Example 1 - Riemannian Manifold.py
 │   └── Example 2 - Riemannian Manifold.py
