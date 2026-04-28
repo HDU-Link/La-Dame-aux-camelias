@@ -150,7 +150,7 @@ $$
 x_i^{(4)} = \frac{\kappa x_i}{\left(1+x_i^2 + y_i^2\right)^2} + \mu \cdot \sum_{j\in \mathcal{N}_i} (x_j - x_i), \quad y_i^{(4)} = \frac{\kappa y_i}{\left(1+x_i^2 + y_i^2\right)^2} + \mu \cdot \sum_{j\in \mathcal{N}_i} (y_j - y_i), \quad i = 1,2,3,4
 $$
 
-给定边值，考虑以下问题：
+给定边值，设邻居集 $\mathcal{N}_1=\mathcal{N}_2=$ &lbrace; $1,2$ &rbrace; , $\mathcal{N}_3=\mathcal{N}_4=$ &lbrace; $3,4$ &rbrace; ， 考虑以下问题：
 
 $$
 \begin{cases}
@@ -160,8 +160,7 @@ x_i'(0) = 0, \quad x_i'(1) = 0, \quad y_i'(0) = 0, \quad y_i'(1) = 0, \quad i = 
 x_1(0) = -1, \quad x_1(1) = 1, \quad y_1(0) = 2, \quad y_1(1) = 2,\\
 x_2(0) = -1, \quad x_2(1) = 1, \quad y_2(0) = 1, \quad y_2(1) = 1,\\
 x_3(0) = -1, \quad x_3(1) = 1, \quad y_3(0) = -1, \quad y_3(1) = -1,\\
-x_4(0) = -1, \quad x_4(1) = 1, \quad y_4(0) = -2, \quad y_4(1) = -2,\\
-\mathcal{N}_1=\mathcal{N}_2= \{ 1,2 \} ,\quad \mathcal{N}_3=\mathcal{N}_4= \{ 3,4 \} 
+x_4(0) = -1, \quad x_4(1) = 1, \quad y_4(0) = -2, \quad y_4(1) = -2
 \end{cases}
 $$
 
