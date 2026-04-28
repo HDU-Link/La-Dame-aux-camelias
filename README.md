@@ -133,7 +133,7 @@ $$
 考虑以下泛函
 
 $$
-J\left[ p_1,p_2,p_3,p_4 \right] =\frac{1}{2}\int_0^1{\sum_{i=1}^4{\left[ \left( p_i'' \right) ^2+\Psi \left( p_i,p_0 \right) +\sum_{j\in \mathcal{N}_i}{\Phi \left( p_i,p_j \right)} \right]}\text{d}t}
+J\left[ p_1,p_2,p_3,p_4 \right] =\frac{1}{2}\int_0^1{\sum_{i=1}^4{\left[ \left( p_i'' \right) ^2+\Psi \left( p_i,p_0 \right) +\frac{1}{2}\sum_{j\in \mathcal{N}_i}{\Phi \left( p_i,p_j \right)} \right]}\text{d}t}
 $$
 
 其中：
@@ -174,24 +174,31 @@ $$
 考虑以下泛函
 
 $$
-J\left[ y_1,y_2 \right] =\int_0^1{\frac{1}{2}\left( y_{1}'' \right) ^2+}\frac{1}{2}\left( y_{2}'' \right) ^2+\frac{\mu}{2}\left( y_1-y_2 \right) ^2\text{d}t
+J\left[ q_1,\cdots ,q_n \right] =\frac{1}{2}\sum_{i=1}^n{\int_0^1{\left[ \lVert \frac{D\dot{q}_i}{dt} \rVert ^2+\Psi \left( q_i,q_0 \right) +\frac{1}{2}\sum_{j\in \mathcal{N}_i}{\Phi \left( q_i,q_j \right)} \right] \text{d}t}}
 $$
 
 其中：
 
-- $y_1(t)$ 和 $y_2(t)$ 分别表示两个质点的位置
-- $y_1''$ 和 $y_2''$ 表示加速度（与动能相关）
-- $(y_1 - y_2)^2$ 表示弹性势能（耦合项）
+- $q_i(t)$ 表示第 $i$ 个智能体的位置， $q_0(t)$ 表示障碍物的位置
+- $\lVert \frac{D\dot{q}_i}{dt} \rVert ^2$ 表示第 $i$ 个智能体速度的协变导数（即流形上的加速度）
+- $\Psi(q_i, q_0)$ 是避障人工势函数，这里选取 $\Psi(q_i, q_0) = \dfrac{\kappa}{1 + d^2(q_i, q_0)}$
+- $\Phi(q_i, q_j)$ 是智能体之间的协同势函数，这里选取 $\Phi(q_i, q_j) = \mu d^2(q_i, q_j)$
 
 求解该泛函极值，得到相应的欧拉-拉格朗日方程为
 
 $$
-\quad y_1^{(4)} = \mu (y_2 - y_1), \quad \quad y_2^{(4)} = \mu (y_1 - y_2)
+\frac{D^3\dot{q}_i}{dt^3}+R\left( \frac{D\dot{q}_i}{dt},\dot{q}_i \right) \dot{q}_i+\frac{1}{2}\text{grad}_i\Psi \left( q_i,q_0 \right) +\frac{1}{2}\sum_{j\in \mathcal{N}_i}{\text{grad}_i\Phi \left( q_i,q_j \right)}=0
 $$
 
-在 `Example_6.py` 中给出不同 $\mu$ 下对应的智能体运动轨迹曲线。
+即
 
-在 `Example_7.py` 用李群约化方程后，进一步求解边值问题。
+$$
+\frac{D^3\dot{q}_i}{dt^3}+R\left( \frac{D\dot{q}_i}{dt},\dot{q}_i \right) \dot{q}_i+\frac{\kappa \log _{q_i}q_0}{\left( 1+d^2\left( q_i,q_0 \right) \right) ^2}-\mu \sum_{j\in \mathcal{N}_i}{\log _{q_i}q_j}=0
+$$
+
+在 `Example_6.py` 中仅考虑协同（即 $\kappa=0$ ），给出不同 $\mu$ 下对应的智能体运动轨迹曲线。
+
+在 `Example_7.py` 用李群约化方程后，考虑协同避障问题，进一步求解边值问题。
 ## 🧩 项目结构
 
 ```plaintext
