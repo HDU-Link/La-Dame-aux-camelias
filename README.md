@@ -49,6 +49,8 @@ $$
 
 在Example_2.py用 $\theta$ 替换问题中的 $y$ ，给出坐标为 $(\cos\theta, \sin\theta)$ 相应的 $y-x$ 动画演示、关键时间节点定格位置图。
 
+在Project Overview中基于H5+CSS3+JS开发/Vue开发的网页中，给出了本例实现的具体详细介绍（英文版），二者在内容上无本质区别，仅是本人网页设计与开发的初次尝试和练习。
+
 ## 📝 例2：双质点耦合系统（速度协同）
 
 考虑以下泛函
@@ -70,8 +72,7 @@ $$
 \quad y_1^{(4)} = \mu (y_1'' - y_2''), \quad \quad y_2^{(4)} = \mu (y_2'' - y_1'')
 $$
 
-
-给定如下边界条件：
+给定边值，考虑以下问题：
 
 $$
 \begin{cases}
@@ -86,6 +87,47 @@ $$
 
 在Example_3.py中会给出不同 $\mu$ 下对应的 $y-t$ 图、 $y'-t$ 图、以及利用打靶法寻找初值的优化曲线。
 
+## 📝 例3：单质点避障
+
+考虑以下泛函
+
+$$
+\begin{aligned}
+&J\left[ p\left( x,y \right) \right]= \int_0^1{\frac{1}{2}\left[ \left( p'' \right)^2 + \mu \Psi \left( p,p_0 \right) \right]}\text{d}t \\
+&= J\left[ x,y \right] = \int_0^1{\frac{1}{2}\left[ \left( x'' \right)^2 + \left( y'' \right)^2 + \mu \frac{1}{\left( x-x_0 \right)^2 + \left( y-y_0 \right)^2} \right]}\text{d}t
+\end{aligned}
+$$
+
+其中：
+
+- $\Psi$ 是避障人工势函数（artificial potential function, APF），这里选取了 $\Psi \left( p,p_0 \right) =\left( p-p_0 \right) ^{-2} $
+- $(x,y)$ 是质点 $p$ 的位置坐标， $(x_0,y_0)$ 是障碍物 $p_0$ 的位置坐标
+- $x''$ 和 $y''$ 表示加速度（与动能相关）
+
+对泛函 $J[x,y]$ 求变分，可得如下欧拉-拉格朗日方程组：
+
+$$
+\quad 
+x^{(4)} = \mu \cdot \frac{(x - x_0)}{\left[(x - x_0)^2 + (y - y_0)^2\right]^2},
+\quad \quad 
+y^{(4)} = \mu \cdot \frac{(y - y_0)}{\left[(x - x_0)^2 + (y - y_0)^2\right]^2}
+$$
+
+给定边值，选取静态障碍物位置为坐标原点 $p_0(0,0)$，考虑以下问题：
+
+$$
+\begin{cases}
+x^{(4)} = \mu \cdot \frac{x}{\left(x^2 + y^2\right)^2}, \\
+y^{(4)} = \mu \cdot \frac{y}{\left(x^2 + y^2\right)^2}, \\
+x(0) = -1, \quad x(1) = 1, \quad x'(0) = 0, \quad x'(1) = 0, \\
+y(0) = 0, \quad y(1) = 0, \quad y'(0) = 0, \quad y'(1) = 0,
+\end{cases}
+$$
+
+随 $\mu$ 增大，方程呈现刚性，表现为质点轨迹在靠近障碍物处急剧弯曲，需要更精细的数值方法。
+
+在Example_4.py中会给出不同 $\mu$ 下对应的 $y-x$ 图以及利用打靶法寻找初值的优化曲线。
+
 ## 🧩 项目结构
 
 ```plaintext
@@ -94,8 +136,8 @@ La-Dame-aux-camelias/
 │   ├── Example_1.py          # 考虑一维位置协同问题，定义基本配置类
 │   ├── Example_2.py          # 演示一维位置协同问题的轨迹动画
 │   ├── Example_3.py          # 考虑一维速度协同问题
-│   ├── Example_4.py          # 考虑二维位置协同问题
-│   └── Example_5.py          # 考虑三维合作竞争网络多智能体的协同避障问题
+│   ├── Example_4.py          # 考虑二维质点避障问题
+│   └── Example_5.py          # 考虑二维合作竞争网络多智能体的协同避障问题
 ├── Riemannian Manifold/      # 黎曼流形仿真示例
 │   ├── Example 1 - Riemannian Manifold.py
 │   └── Example 2 - Riemannian Manifold.py
