@@ -1,4 +1,4 @@
-## 📚 变分法求解泛函极值问题
+## 📚 多智能体协同避障变分问题的相关研究
 
 考虑依赖于多个函数及其导数的泛函：
 
@@ -128,6 +128,10 @@ $$
 
 在Example_4.py中会给出不同 $\mu$ 下对应的 $y-x$ 图以及利用打靶法寻找初值的优化曲线。
 
+## 📝 例4：多智能体协同避障（位置协同+避障）
+
+在Example_5.py中会给出普通避障、协同避障的两幅图可进行对比，以及利用打靶法寻找初值的优化曲线。
+
 ## 🧩 项目结构
 
 ```plaintext
@@ -136,8 +140,8 @@ La-Dame-aux-camelias/
 │   ├── Example_1.py          # 考虑一维位置协同问题，定义基本配置类
 │   ├── Example_2.py          # 演示一维位置协同问题的轨迹动画
 │   ├── Example_3.py          # 考虑一维速度协同问题
-│   ├── Example_4.py          # 考虑二维质点避障问题
-│   └── Example_5.py          # 考虑二维合作竞争网络多智能体的协同避障问题
+│   ├── Example_4.py          # 考虑二维单质点避障问题
+│   └── Example_5.py          # 考虑二维多智能体协同避障问题
 ├── Riemannian Manifold/      # 黎曼流形仿真示例
 │   ├── Example 1 - Riemannian Manifold.py
 │   └── Example 2 - Riemannian Manifold.py
