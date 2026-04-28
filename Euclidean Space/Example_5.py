@@ -2,12 +2,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 from scipy.integrate import solve_ivp
 from scipy.optimize import minimize
-plt.rcParams.update({
-    'font.family': 'Arial',
-    'font.sans-serif': ['Arial'],
-    'font.size': 14,
-    'lines.linewidth': 2
-})
+from Example_1 import BasicConfig
+BasicConfig.apply('paper')
 
 t_span = (0, 1); t_eval = np.linspace(0, 1, 100);
 n_agents = 4; y0 = [0, 0]; kappa = 100; mu2 = 1000;
@@ -92,9 +88,4 @@ for sol, label in solutions:
     plt.show()
 
 # Optimization curve chart
-fig = plt.figure("Optimization curve chart")
-plt.plot(iterations, errors_list, '-o', markersize=4)
-plt.xlabel("Number of iterations")
-plt.ylabel("Value of error function")
-plt.yscale('log')
-plt.show()
+BasicConfig.plot_optimization_curve(iterations, errors_list)
