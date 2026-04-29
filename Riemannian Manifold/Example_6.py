@@ -47,7 +47,7 @@ def dynamics_aggregation(t, state):
     forces = []
     for i in range(n):
         qi = state[i*12:i*12+3]
-        force = np.zeros(n)
+        force = np.zeros(3)
         for k in range(n):
             if k != i:
                 qk = state[k*12:k*12+3]
