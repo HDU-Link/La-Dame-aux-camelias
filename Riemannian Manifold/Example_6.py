@@ -21,7 +21,7 @@ def dynamics_core(t, state, forces=None):
     derivatives = np.zeros_like(state)
     
     if forces is None:
-        forces = [np.zeros(n) for _ in range(n)]
+        forces = [np.zeros(3) for _ in range(n)]
     
     for i in range(n):
         idx = i * 12
